@@ -27,33 +27,6 @@
     <script type="text/javascript">
         $(function(){
 
-            //登录
-            $("#submitBtn").click(function(){
-                var data = $("#form").serialize();
-                $.ajax({
-                    type: "post",
-                    url: "LoginServlet?method=Login",
-                    data: data,
-                    dataType: "text", //返回数据类型
-                    success: function(msg){
-                        if("vcodeError" == msg){
-                            $.messager.alert("消息提醒", "验证码错误!", "warning");
-                            $("#vcodeImg").click();//切换验证码
-                            $("input[name='vcode']").val("");//清空验证码输入框
-                        } else if("loginError" == msg){
-                            $.messager.alert("消息提醒", "用户名或密码错误!", "warning");
-                            $("#vcodeImg").click();//切换验证码
-                            $("input[name='vcode']").val("");//清空验证码输入框
-                        } else if("loginSuccess" == msg){
-                            window.location.href = "SystemServlet?method=toAdminView";
-                        } else{
-                            alert(msg);
-                        }
-                    }
-
-                });
-            });
-
             //设置复选框
             $(".skin-minimal input").iCheck({
                 radioClass: 'iradio-blue',
@@ -71,23 +44,18 @@
 </div>
 <div class="loginWraper">
     <div id="loginform" class="loginBox">
-        <form id="form" class="form form-horizontal" method="post">
+        <form id="form" class="form form-horizontal" method="post" action="/login">
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-8">
-                    <input id="" name="account" type="text" placeholder="账户" class="input-text size-L">
+                    <input id="" name="name" type="text" placeholder="账户" class="input-text size-L">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                 <div class="formControls col-8">
-                    <input id="" name="password" type="password" placeholder="密码" class="input-text size-L">
+                    <input id="" name="password" type="text" placeholder="密码" class="input-text size-L">
                 </div>
-            </div>
-            <div class="row cl">
-                <div class="formControls col-8 col-offset-3">
-                    <input class="input-text size-L" name="vcode" type="text" placeholder="请输入验证码" style="width: 200px;">
-                    <img title="点击图片切换验证码" id="vcodeImg" src="CpachaServlet?method=loginCapcha"></div>
             </div>
 
             <div class="mt-20 skin-minimal" style="text-align: center;">
@@ -101,14 +69,15 @@
                 </div>
                 <div class="radio-box">
                     <input type="radio" id="radio-1" name="type" value="1" />
-                    <label for="radio-3">管理员登录</label>
+                    <label for="radio-3">管理员</label>
                 </div>
             </div>
 
             <div class="row">
                 <div class="formControls col-8 col-offset-3">
-                    <input id="submitBtn" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
-                </div>
+                    <input id="submitBtn" type="submit"
+                           class="btn btn-success radius size-L"
+                           value="管理员登录"> </div>
             </div>
         </form>
     </div>
