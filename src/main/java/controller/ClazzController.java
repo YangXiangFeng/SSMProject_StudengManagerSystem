@@ -1,6 +1,7 @@
 package controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -41,9 +42,9 @@ public class ClazzController {
         int total = clazzList.size();
         System.out.println("total:" + total);
         Map<String, Object> ret = new HashMap<String, Object>();
-
+        ObjectMapper jsonmapper = new ObjectMapper();
         ret.put("rows", clazzList);
         ret.put("total", total);
-        return ret.toString();
+        return jsonmapper.writeValueAsString(ret);
     }
 }

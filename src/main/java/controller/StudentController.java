@@ -1,5 +1,7 @@
 package controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -32,13 +34,13 @@ public class StudentController {
 //    studentList.jsp中url会来这里请求数据
     @RequestMapping("getStudentList")
     @ResponseBody
-    public String getStudentList() {
+    public String getStudentList() throws JsonProcessingException {
         List<Student> students = service.getStudentListByPage(new Page(1,8));
         Map ret = new HashMap();
         ret.put("rows",students);
-//        ObjectMapper Jsonmapper = new ObjectMapper();
-//        System.out.println("jsonData="+Jsonmapper.writeValueAsString(students));
-//        return Jsonmapper.writeValueAsString(ret);
-        return ret.toString();
+        ObjectMapper Jsonmapper = new ObjectMapper();
+        System.out.println("jsonData="+Jsonmapper.writeValueAsString(students));
+        return Jsonmapper.writeValueAsString(ret);
+//        return ret.toString();
     }
 }
