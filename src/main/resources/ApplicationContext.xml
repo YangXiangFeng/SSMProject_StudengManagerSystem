@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--sessionFactory需要一个datasource-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/db_student_manager_web"/>
+        <property name="user" value="root"/>
+        <property name="password" value=""/>
+    </bean>
+   <!--要想使用Mybatis,肯定要把它交给spring管理-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--以下是mybatis的配置,现在不用也可以-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+    <!--再通过 MapperFactoryBean 将mapper加入到 Spring中即可使用-->
+    <bean id="adminMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="mapper.AdminMapper2" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+     <bean id="studentMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="mapper.StudentMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+     <bean id="ClazzMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="mapper.ClazzMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <!--以上都是为了使用Mybatis的配置.........................................-->
+    <!--开启事务-->
+    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+        <!--<constructor-arg ref="dataSource" />-->
+    <!--</bean>-->
+
+    <!--service层依赖Mapper,所以把它注入即可-->
+    <bean id="adminService" class="service.AdminServiceImpl">
+        <property name="mapper" ref="adminMapper1"/>
+    </bean>
+    <bean id="studentService" class="service.StudentServiceImpl">
+        <property name="mapper" ref="studentMapper1"/>
+    </bean>
+    <bean id="clazzService" class="service.ClazzServiceImpl">
+        <property name="clazzMapper" ref="ClazzMapper1"/>
+    </bean>
+</beans>
