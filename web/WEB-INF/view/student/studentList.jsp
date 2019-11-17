@@ -12,7 +12,6 @@
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="easyui/js/validateExtends.js"></script>
     <script type="text/javascript">
-        <%--由StudentController跳转过来的--%>
         $(function () {
             //datagrid初始化
             $('#dataList').datagrid({
@@ -22,8 +21,8 @@
                 collapsible: false,//是否可折叠的
                 fit: true,//自动大小
                 method: "post",
-//	        url:"StudentServlet?method=StudentList&t="+new Date().getTime(),
-                url: "getStudentList",  //去这里访问服务器获取数据
+//                url:"StudentServlet?method=StudentList&t="+new Date().getTime(),
+                url: "getStudentList",
                 idField: 'id',
                 singleSelect: false,//是否单选
                 pagination: true,//分页控件
@@ -39,29 +38,31 @@
                     {field: 'sex', title: '性别', width: 100},
                     {field: 'mobile', title: '电话', width: 150},
                     {field: 'qq', title: 'QQ', width: 150},
-                    {
-                        field: 'clazz_id', title: '班级', width: 150,
-                        formatter: function (value, row, index) {
-                            if (row.clazzId) {
-                                var clazzList = $("#clazzList").combobox("getData");
-                                for (var i = 0; i < clazzList.length; i++) {
-                                    //console.log(clazzList[i]);
-                                    if (row.clazzId == clazzList[i].id) return clazzList[i].name;
-                                }
-                                return row.clazzId;
-                            } else {
-                                return 'not found';
-                            }
-                        }
-                    },
-
+                    {field: 'clazzId', title: '班级', width: 150}
+//                    {
+//                        field: 'clazzId', title: '班级', width: 150,
+//                        formatter: function (value, row, index) {
+//                            if (row.clazzId) {
+//                                var clazzList = $("#clazzList").combobox("getData");
+//                                for (var i = 0; i < clazzList.length; i++) {
+//                                    //console.log(clazzList[i]);
+//                                    if (row.clazzId == clazzList[i].id)
+//                                        return clazzList[i].name;
+//                                }
+//                                return row.clazzId;
+//                            } else {
+//                                return 'not found';
+//                            }
+//                        }
+//                    }
                 ]],
+
                 toolbar: "#toolbar",
                 onBeforeLoad: function () {
                     try {
                         $("#clazzList").combobox("getData")
                     } catch (err) {
-//                        preLoadClazz();
+                        preLoadClazz();
                     }
                 }
             });
@@ -126,23 +127,6 @@
             });
 
 
-            //班级下拉框
-            /*$("#clazzList").combobox({
-                width: "150",
-                height: "25",
-                valueField: "id",
-                textField: "name",
-                multiple: false, //可多选
-                editable: false, //不可编辑
-                method: "post",
-                url: "ClazzServlet?method=getClazzList&t="+new Date().getTime()+"&from=combox",
-                onChange: function(newValue, oldValue){
-                    //加载班级下的学生
-                    $('#dataList').datagrid("options").queryParams = {clazzid: newValue};
-                    $('#dataList').datagrid("reload");
-                }
-            });*/
-
             function preLoadClazz() {
                 $("#clazzList").combobox({
                     width: "150",
@@ -152,9 +136,8 @@
                     multiple: false, //可多选
                     editable: false, //不可编辑
                     method: "post",
-//                    载入班级信息.就是去服务器获取数据
-//                    url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
-                    url:"getClazzList",
+//                    url: "ClazzServlet?method=getClazzList&t="+new Date().getTime()+"&from=combox",
+                    url: "/getClazzList?from=combox",
                     onChange: function (newValue, oldValue) {
                         //加载班级下的学生
                         //$('#dataList').datagrid("options").queryParams = {clazzid: newValue};
@@ -176,8 +159,7 @@
 
 
             $("#add_clazzList").combobox({
-//                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
-//                url: "getClazzList",
+                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
                 onLoadSuccess: function () {
                     //默认选择第一条数据
                     var data = $(this).combobox("getData");
@@ -188,8 +170,7 @@
 
 
             $("#edit_clazzList").combobox({
-//                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
-//                url: "getClazzList",
+                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
                 onLoadSuccess: function () {
                     //默认选择第一条数据
                     var data = $(this).combobox("getData");
@@ -343,7 +324,7 @@
                     $("#edit_sex").textbox('setValue', selectRow.sex);
                     $("#edit_mobile").textbox('setValue', selectRow.mobile);
                     $("#edit_qq").textbox('setValue', selectRow.qq);
-//                    $("#edit_photo").attr("src", "PhotoServlet?method=getPhoto&type=2&sid=" + selectRow.id);
+                    $("#edit_photo").attr("src", "PhotoServlet?method=getPhoto&type=2&sid=" + selectRow.id);
                     $("#edit-id").val(selectRow.id);
                     $("#set-photo-id").val(selectRow.id);
                     var clazzid = selectRow.clazzId;
@@ -378,7 +359,7 @@
                 var message = $(window.frames["photo_target"].document).find("#message").text();
                 $.messager.alert("消息提醒", message, "info");
 
-//                $("#edit_photo").attr("src", "PhotoServlet?method=getPhoto&sid=" + $("#set-photo-id").val());
+                $("#edit_photo").attr("src", "PhotoServlet?method=getPhoto&sid=" + $("#set-photo-id").val());
             }, 1500)
         }
     </script>
@@ -414,7 +395,7 @@
 <!-- 添加学生窗口 -->
 <div id="addDialog" style="padding: 10px">
     <div style="float: right; margin: 20px 20px 0 0; width: 200px; border: 1px solid #EBF3FF" id="photo">
-        <%--<img alt="照片" style="max-width: 200px; max-height: 400px;" title="照片" src="PhotoServlet?method=getPhoto"/>--%>
+        <img alt="照片" style="max-width: 200px; max-height: 400px;" title="照片" src="PhotoServlet?method=getPhoto"/>
     </div>
     <form id="addForm" method="post">
         <table cellpadding="8">
@@ -462,7 +443,7 @@
 <div id="editDialog" style="padding: 10px">
     <div style="float: right; margin: 20px 20px 0 0; width: 200px; border: 1px solid #EBF3FF">
         <img id="edit_photo" alt="照片" style="max-width: 200px; max-height: 400px;" title="照片" src=""/>
-        <%--<form id="uploadForm" method="post" enctype="multipart/form-data" action="PhotoServlet?method=SetPhoto"--%>
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="PhotoServlet?method=SetPhoto"
               target="photo_target">
             <!-- StudentServlet?method=SetPhoto -->
             <input type="hidden" name="sid" id="set-photo-id">

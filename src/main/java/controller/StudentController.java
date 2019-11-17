@@ -8,11 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import pojo.Admin;
 import pojo.Page;
 import pojo.Student;
-import service.AdminService;
 import service.StudentService;
 
 import java.util.HashMap;
@@ -28,6 +25,7 @@ public class StudentController {
     @RequestMapping("studentListController")
     public String queryAllStudent(Model model) {
 //        List<Student> students = service.queryAllStudent();
+        int i = 3;
         return "view/student/studentList";
     }
 
@@ -36,11 +34,17 @@ public class StudentController {
     @ResponseBody
     public String getStudentList() throws JsonProcessingException {
         List<Student> students = service.getStudentListByPage(new Page(1,8));
-        Map ret = new HashMap();
+        System.out.println("-------------------");
+
+        for (Student s :
+                students) {
+            System.out.println(s.toString());
+        }
+        Map<String, Object> ret = new HashMap<String, Object>();
         ret.put("rows",students);
+        ret.put("total",2292);
         ObjectMapper Jsonmapper = new ObjectMapper();
         System.out.println("jsonData="+Jsonmapper.writeValueAsString(students));
         return Jsonmapper.writeValueAsString(ret);
-//        return ret.toString();
     }
 }

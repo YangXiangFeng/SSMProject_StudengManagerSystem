@@ -33,18 +33,25 @@ public class ClazzController {
         return "view/clazz/clazzListPage";
     }
 
-//    是从 clazzListPage.jsp这个页面点击跳转过来的
+    //    是从 clazzListPage.jsp这个页面点击跳转过来的
 //    这个clazzName是在班级列表表单里传过来的,刚开始点进去的时候这个参数是空
     @RequestMapping("/getClazzList")
     @ResponseBody
-    public String getClazz() throws IOException {
+    public String getClazz(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        String from = request.getParameter("from");
         List<Clazz> clazzList = service.getClazzListByPage(new Page(1, 5));
         int total = clazzList.size();
+        System.out.println("");
         System.out.println("total:" + total);
         Map<String, Object> ret = new HashMap<String, Object>();
         ObjectMapper jsonmapper = new ObjectMapper();
         ret.put("rows", clazzList);
         ret.put("total", total);
-        return jsonmapper.writeValueAsString(ret);
+        if (from.equals("combox")){
+            return jsonmapper.writeValueAsString(clazzList);
+        }
+        else{
+            return jsonmapper.writeValueAsString(ret);
+        }
     }
 }

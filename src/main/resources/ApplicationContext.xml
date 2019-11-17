@@ -6,7 +6,7 @@
     <!--sessionFactory需要一个datasource-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/db_student_manager_web"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/db_student_manager_web2"/>
         <property name="user" value="root"/>
         <property name="password" value=""/>
     </bean>

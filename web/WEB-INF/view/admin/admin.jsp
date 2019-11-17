@@ -22,6 +22,7 @@
                         {
                             "menuid": "21", "menuname": "学生列表", "icon": "icon-user-student",
                             "url": "/studentListController"
+//                            "url": "/getStudentList"
                         }
 //                                        这是跳转到学生列表的controller
                     ]
