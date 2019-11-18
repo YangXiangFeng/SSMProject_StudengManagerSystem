@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pojo.Page;
 import pojo.Student;
@@ -24,25 +25,28 @@ public class StudentController {
 
     @RequestMapping("studentListController")
     public String queryAllStudent(Model model) {
-//        List<Student> students = service.queryAllStudent();
-        int i = 3;
         return "view/student/studentList";
     }
 
 //    studentList.jsp中url会来这里请求数据
     @RequestMapping("getStudentList")
     @ResponseBody
-    public String getStudentList() throws JsonProcessingException {
-        List<Student> students = service.getStudentListByPage(new Page(1,8));
-        System.out.println("-------------------");
+    public String getStudentList(Integer clazzid, @RequestParam("page") Integer currentPage,
+                                 @RequestParam("rows") Integer pageSize,
+                                 String studentName)
+            throws JsonProcessingException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Page page = new Page(currentPage,pageSize);
+        map.put("pageSize",page.getPageSize());
+        map.put("start",page.getStart());
+        map.put("clazzId",clazzid);
+        map.put("studentName",studentName);
+        List<Student> students = service.getStudentListByPage(map);
 
-        for (Student s :
-                students) {
-            System.out.println(s.toString());
-        }
+        int total = service.getTotalNumber();
         Map<String, Object> ret = new HashMap<String, Object>();
         ret.put("rows",students);
-        ret.put("total",2292);
+        ret.put("total", total);
         ObjectMapper Jsonmapper = new ObjectMapper();
         System.out.println("jsonData="+Jsonmapper.writeValueAsString(students));
         return Jsonmapper.writeValueAsString(ret);

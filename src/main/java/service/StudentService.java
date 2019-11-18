@@ -24,5 +24,7 @@ public interface StudentService {
 
     List<Student> queryStudentByPage(int page);
 
-    List<Student> getStudentListByPage(Page page);
+    List<Student> getStudentListByPage(Map map);
+
+    int getTotalNumber();
 }

@@ -23,11 +23,30 @@
     <select id="queryStudentById" parameterType="integer" resultType="pojo.Student">
         SELECT * from studentmanager.stu WHERE sid = #{id};
     </select>
-    <select id="findStudentByPage" parameterType="integer" resultType="pojo.Student">
-        SELECT * from stu limit 2 offset #{2 * (page - 1)};
+
+    <!--查询全部-->
+    <select id="getAllStudentByPage" resultType="pojo.Student" parameterType="map">
+        SELECT * from s_student limit #{pageSize} offset #{start} ;
     </select>
 
-    <select id="getSudentListByPage" resultType="pojo.Student" parameterType="pojo.Page">
-        SELECT * from s_student limit #{pageSize} offset #{start};
+    <!--查询班级全部学生-->
+    <select id="getStudentListByPage" resultType="pojo.Student" parameterType="map">
+        SELECT * from s_student WHERE clazzId = #{clazzId} limit #{pageSize} offset #{start} ;
+    </select>
+
+    <!--对姓名模糊查询-->
+    <select id="getStudentByName" resultType="pojo.Student" parameterType="map">
+        SELECT * FROM s_student WHERE name LIKE '%${studentName}%' limit #{pageSize} offset #{start};
+    </select>
+
+    <!--在班级中对姓名模糊查询-->
+    <select id="getStudentByNameInClass" resultType="pojo.Student" parameterType="map">
+        SELECT * FROM s_student WHERE name LIKE '%${studentName}%' AND clazzId = #{clazzId}
+         limit #{pageSize} offset #{start};
+    </select>
+
+    <!--查询学生数量-->
+    <select id="queryTotalStudentNumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM s_student;
     </select>
 </mapper>

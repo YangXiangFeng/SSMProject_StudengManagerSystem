@@ -21,7 +21,7 @@
                 fit: true,//自动大小
                 method: "post",
 //                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime(),
-                url: "/getClazzList",  //跳转到servlet，再显示返回的数据
+                url: "/getClazzList?from=class",  //跳转到servlet，再显示返回的数据
                 idField: 'name',      //指明哪个字段是标志字段，原来是id，我改了改试试
                 singleSelect: true,//是否单选
                 pagination: true,//分页控件

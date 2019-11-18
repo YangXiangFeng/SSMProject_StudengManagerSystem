@@ -38,23 +38,22 @@
                     {field: 'sex', title: '性别', width: 100},
                     {field: 'mobile', title: '电话', width: 150},
                     {field: 'qq', title: 'QQ', width: 150},
-                    {field: 'clazzId', title: '班级', width: 150}
-//                    {
-//                        field: 'clazzId', title: '班级', width: 150,
-//                        formatter: function (value, row, index) {
-//                            if (row.clazzId) {
-//                                var clazzList = $("#clazzList").combobox("getData");
-//                                for (var i = 0; i < clazzList.length; i++) {
-//                                    //console.log(clazzList[i]);
-//                                    if (row.clazzId == clazzList[i].id)
-//                                        return clazzList[i].name;
-//                                }
-//                                return row.clazzId;
-//                            } else {
-//                                return 'not found';
-//                            }
-//                        }
-//                    }
+                    {
+                        field: 'clazzId', title: '班级', width: 150,
+                        formatter: function (value, row, index) {
+                            if (row.clazzId) {
+                                var clazzList = $("#clazzList").combobox("getData");
+                                for (var i = 0; i < clazzList.length; i++) {
+                                    //console.log(clazzList[i]);
+                                    if (row.clazzId == clazzList[i].id)
+                                        return clazzList[i].name;
+                                }
+                                return row.clazzId;
+                            } else {
+                                return 'not found';
+                            }
+                        }
+                    }
                 ]],
 
                 toolbar: "#toolbar",
@@ -70,7 +69,7 @@
             var p = $('#dataList').datagrid('getPager');
             $(p).pagination({
                 pageSize: 10,//每页显示的记录条数，默认为10
-                pageList: [10, 20, 30, 50, 100],//可以设置每页记录条数的列表
+                pageList: [5, 10, 20, 30, 50, 100],//可以设置每页记录条数的列表
                 beforePageText: '第',//页数文本框前显示的汉字
                 afterPageText: '页    共 {pages} 页',
                 displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
@@ -132,6 +131,7 @@
                     width: "150",
                     height: "25",
                     valueField: "id",
+//                   返回的数据取出放这个字段
                     textField: "name",
                     multiple: false, //可多选
                     editable: false, //不可编辑
@@ -140,8 +140,9 @@
                     url: "/getClazzList?from=combox",
                     onChange: function (newValue, oldValue) {
                         //加载班级下的学生
-                        //$('#dataList').datagrid("options").queryParams = {clazzid: newValue};
-                        //$('#dataList').datagrid("reload");
+                        $('#dataList').datagrid('options').queryParams = {clazzid: newValue};
+//                        alert(newValue)
+                        $('#dataList').datagrid("reload");
                     }
                 });
             }

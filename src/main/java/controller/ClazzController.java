@@ -37,7 +37,7 @@ public class ClazzController {
 //    这个clazzName是在班级列表表单里传过来的,刚开始点进去的时候这个参数是空
     @RequestMapping("/getClazzList")
     @ResponseBody
-    public String getClazz(HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public String getClazz(HttpServletResponse response, HttpServletRequest request) throws IOException {
         String from = request.getParameter("from");
         List<Clazz> clazzList = service.getClazzListByPage(new Page(1, 5));
         int total = clazzList.size();
@@ -47,10 +47,9 @@ public class ClazzController {
         ObjectMapper jsonmapper = new ObjectMapper();
         ret.put("rows", clazzList);
         ret.put("total", total);
-        if (from.equals("combox")){
+        if (from.equals("combox") ) {
             return jsonmapper.writeValueAsString(clazzList);
-        }
-        else{
+        } else {
             return jsonmapper.writeValueAsString(ret);
         }
     }

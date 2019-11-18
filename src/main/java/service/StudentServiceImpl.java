@@ -1,6 +1,7 @@
 package service;
 
 import mapper.StudentMapper;
+import org.apache.ibatis.jdbc.Null;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -11,7 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class StudentServiceImpl implements StudentService{
+import static org.springframework.util.StringUtils.isEmpty;
+
+public class StudentServiceImpl implements StudentService {
     private StudentMapper mapper;
 
     public StudentMapper getMapper() {
@@ -23,13 +26,8 @@ public class StudentServiceImpl implements StudentService{
     }
     //    private ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-    @Test
-    public void test(){
-//        StudentMapper mapper = (StudentMapper)context.getBean("studentMapper");
-        Date date = new Date();
-        date.getTime();
-//        Student student1 = new Student(5,"aaa","woman","111",date,"play","student");
-//        mapper.insertStudent(student1);
+    public List<Student> queryStudent() {
+        return null;
     }
 
     //增
@@ -56,22 +54,29 @@ public class StudentServiceImpl implements StudentService{
         mapper.updateStudentNameById(map);
     }
 
-    //查
-    public List<Student> queryStudent() {
-//        StudentMapper mapper = (StudentMapper)context.getBean("studentMapper");
-        return  mapper.queryStudent();
-    }
 
     public Student queryStudentById(int id) {
         return mapper.queryStudentById(id);
     }
 
-
-    public List<Student> getStudentListByPage(Page page) {
-        return mapper.getSudentListByPage(page);
+    public List<Student> queryStudentByPage(int page) {
+        return null;
     }
 
-    public List<Student> queryStudentByPage(int page) {
-        return mapper.findStudentByPage(page);
+    public int getTotalNumber() {
+        return mapper.queryTotalStudentNumber();
+    }
+
+    public List<Student> getStudentListByPage(Map map) {
+        if (isEmpty(map.get("clazzId")) && isEmpty(map.get("studentName"))) {  //无条件全部查询
+            return mapper.getAllStudentByPage(map);
+        } else if (!isEmpty(map.get("studentName")) && map.get("clazzId").equals(0)) {
+            //对姓名模糊查询
+            return mapper.getStudentByName(map);
+        } else
+            //对班级中对姓名模糊查询
+//            if (!isEmpty(map.get("studentName")) && !map.get("clazzId").equals(0)) {
+            return mapper.getStudentByNameInClass(map);
     }
 }
+

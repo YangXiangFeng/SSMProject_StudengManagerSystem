@@ -1,6 +1,7 @@
 package mapper;
 
 import org.apache.ibatis.annotations.Param;
+import pojo.Clazz;
 import pojo.Page;
 import pojo.Student;
 
@@ -15,11 +16,16 @@ public interface StudentMapper {
     //更新学生信息
     public void updateStudentNameById(Map map);
     //查询所有学生
-    public List<Student> queryStudent();
 
     Student queryStudentById(int id);
 
-    List<Student> findStudentByPage(int page);
+    int queryTotalStudentNumber();
 
-    List<Student> getSudentListByPage(Page page);
+    List<Student> getStudentListByPage(Map map);
+
+    List<Student> getAllStudentByPage(Map map);
+
+    List<Student> getStudentByName(Map map);
+
+    List<Student> getStudentByNameInClass(Map map);
 }
