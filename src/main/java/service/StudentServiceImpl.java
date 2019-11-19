@@ -67,6 +67,10 @@ public class StudentServiceImpl implements StudentService {
         return mapper.queryTotalStudentNumber();
     }
 
+    public void updateStudentById(Student student) {
+        mapper.updateStudentById(student);
+    }
+
     public List<Student> getStudentListByPage(Map map) {
         if (isEmpty(map.get("clazzId")) && isEmpty(map.get("studentName"))) {  //无条件全部查询
             return mapper.getAllStudentByPage(map);

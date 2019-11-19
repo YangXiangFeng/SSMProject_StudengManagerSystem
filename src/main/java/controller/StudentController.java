@@ -28,7 +28,7 @@ public class StudentController {
         return "view/student/studentList";
     }
 
-//    studentList.jsp中url会来这里请求数据
+    //    studentList.jsp中url会来这里请求数据
     @RequestMapping("getStudentList")
     @ResponseBody
     public String getStudentList(Integer clazzid, @RequestParam("page") Integer currentPage,
@@ -36,19 +36,33 @@ public class StudentController {
                                  String studentName)
             throws JsonProcessingException {
         Map<String, Object> map = new HashMap<String, Object>();
-        Page page = new Page(currentPage,pageSize);
-        map.put("pageSize",page.getPageSize());
-        map.put("start",page.getStart());
-        map.put("clazzId",clazzid);
-        map.put("studentName",studentName);
+        Page page = new Page(currentPage, pageSize);
+        map.put("pageSize", page.getPageSize());
+        map.put("start", page.getStart());
+        map.put("clazzId", clazzid);
+        map.put("studentName", studentName);
         List<Student> students = service.getStudentListByPage(map);
 
         int total = service.getTotalNumber();
         Map<String, Object> ret = new HashMap<String, Object>();
-        ret.put("rows",students);
+        ret.put("rows", students);
         ret.put("total", total);
         ObjectMapper Jsonmapper = new ObjectMapper();
-        System.out.println("jsonData="+Jsonmapper.writeValueAsString(students));
+        System.out.println("jsonData=" + Jsonmapper.writeValueAsString(students));
         return Jsonmapper.writeValueAsString(ret);
+    }
+
+    @RequestMapping("editStudent")
+    @ResponseBody
+    public String editStudentMethod(Integer id,String name, String sex, String mobile, String qq,
+                                    Integer clazzid)
+            throws JsonProcessingException {
+
+        Student student = new Student(id, name,clazzid, sex, mobile, qq);
+        service.updateStudentById(student);
+        Map ret = new HashMap();
+        ret.put("status","updated");
+        ObjectMapper jsonMapper = new ObjectMapper();
+        return jsonMapper.writeValueAsString(ret);
     }
 }

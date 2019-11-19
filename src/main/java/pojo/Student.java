@@ -86,4 +86,41 @@ public class Student {
 				", photo=" + photo +
 				'}';
 	}
+
+	public Student(int id, String sn, String name, String password, int clazzId, String sex, String mobile, String qq, InputStream photo) {
+		this.id = id;
+		this.sn = sn;
+		this.name = name;
+		this.password = password;
+		this.clazzId = clazzId;
+		this.sex = sex;
+		this.mobile = mobile;
+		this.qq = qq;
+		this.photo = photo;
+	}
+
+	//修改学生信息
+	public Student(int id, String name, int clazzId, String sex, String mobile, String qq) {
+		this.id = id;
+		this.name = name;
+		this.clazzId = clazzId;
+		this.sex = sex;
+		this.mobile = mobile;
+		this.qq = qq;
+	}
+
+	public Student() {
+	}
+
+	public Student(String sn, String name, String password, int clazzId, String sex, String mobile, String qq, InputStream photo) {
+
+		this.sn = sn;
+		this.name = name;
+		this.password = password;
+		this.clazzId = clazzId;
+		this.sex = sex;
+		this.mobile = mobile;
+		this.qq = qq;
+		this.photo = photo;
+	}
 }

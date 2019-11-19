@@ -27,4 +27,6 @@ public interface StudentService {
     List<Student> getStudentListByPage(Map map);
 
     int getTotalNumber();
+
+    void updateStudentById(Student student);
 }

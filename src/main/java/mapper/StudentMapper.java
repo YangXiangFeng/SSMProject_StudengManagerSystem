@@ -28,4 +28,6 @@ public interface StudentMapper {
     List<Student> getStudentByName(Map map);
 
     List<Student> getStudentByNameInClass(Map map);
+
+    void updateStudentById(Student student);
 }

@@ -27,7 +27,7 @@
                 pagination: true,//分页控件
                 rownumbers: true,//行号
                 sortName: 'name', //
-                sortOrder: 'DESC',
+                sortOrder: 'asc',
                 remoteSort: false,
                 columns: [[
                     {field: 'chk', checkbox: true, width: 50},
@@ -106,11 +106,13 @@
                             } else {
                                 //var gradeid = $("#add_gradeList").combobox("getValue");
                                 $.ajax({
-                                    type: "post",
-                                    url: "ClazzServlet?method=AddClazz",
+//                                    type: "post",
+                                    type: "get",  //必须修改post方法为get
+//                                    url: "ClazzServlet?method=AddClazz",
+                                    url: "/addClazz",
                                     data: $("#addForm").serialize(),
-                                    success: function (msg) {
-                                        if (msg == "success") {
+                                    success: function (data, status) {
+                                        if (status == "success") {
                                             $.messager.alert("消息提醒", "添加成功!", "info");
                                             //关闭窗口
                                             $("#addDialog").dialog("close");
@@ -187,11 +189,12 @@
                             } else {
                                 //var gradeid = $("#add_gradeList").combobox("getValue");
                                 $.ajax({
-                                    type: "post",
-                                    url: "ClazzServlet?method=EditClazz",
+                                    type: "get",
+//                                    url: "ClazzServlet?method=EditClazz",
+                                    url: "/editClazz",
                                     data: $("#editForm").serialize(),
-                                    success: function (msg) {
-                                        if (msg == "success") {
+                                    success: function (data, status) {
+                                        if (status == "success") {
                                             $.messager.alert("消息提醒", "修改成功!", "info");
                                             //关闭窗口
                                             $("#editDialog").dialog("close");
@@ -203,6 +206,7 @@
                                             $('#dataList').datagrid("reload");
 
                                         } else {
+                                            alert(data);
                                             $.messager.alert("消息提醒", "修改失败!", "warning");
                                             return;
                                         }
@@ -237,7 +241,6 @@
 <body>
 <!-- 班级数据列表 -->
 <table id="dataList" cellspacing="0" cellpadding="0">
-    sdfdsfdsdsf
 </table>
 
 <!-- 工具栏 -->

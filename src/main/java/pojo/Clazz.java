@@ -8,6 +8,18 @@ public class Clazz {
 	private int id;
 	private String name;
 	private String info;
+
+	public Clazz(String name, String info) {
+		this.name = name;
+		this.info = info;
+	}
+
+	public Clazz(int id, String name, String info) {
+		this.id = id;
+		this.name = name;
+		this.info = info;
+	}
+
 	public int getId() {
 		return id;
 	}

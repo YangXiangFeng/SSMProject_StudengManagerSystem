@@ -28,7 +28,7 @@
                 pagination: true,//分页控件
                 rownumbers: true,//行号
                 sortName: 'id',
-                sortOrder: 'DESC',
+                sortOrder: 'asc',
                 remoteSort: false,
                 columns: [[
                     {field: 'chk', checkbox: true, width: 50},
@@ -164,14 +164,13 @@
                 onLoadSuccess: function () {
                     //默认选择第一条数据
                     var data = $(this).combobox("getData");
-                    ;
                     $(this).combobox("setValue", data[0].id);
                 }
             });
 
-
             $("#edit_clazzList").combobox({
-                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
+//                url: "ClazzServlet?method=getClazzList&t=" + new Date().getTime() + "&from=combox",
+                url: "/getClazzList?from=combox",
                 onLoadSuccess: function () {
                     //默认选择第一条数据
                     var data = $(this).combobox("getData");
@@ -277,11 +276,13 @@
                                 return;
                             } else {
                                 $.ajax({
-                                    type: "post",
-                                    url: "StudentServlet?method=EditStudent&t=" + new Date().getTime(),
+                                    type: "get", //如果是get方法,将自动把下面的data附在这后面发送到服务器
+//                                    url: "StudentServlet?method=EditStudent&t=" + new Date().getTime(),
+                                    url: "/editStudent",
                                     data: $("#editForm").serialize(),
-                                    success: function (msg) {
-                                        if (msg == "success") {
+                                    //请求数据,data是返回的数据,必须为json格式数据才算返回成功
+                                    success: function (data, status) {
+                                        if (status == "success") {
                                             $.messager.alert("消息提醒", "更新成功!", "info");
                                             //关闭窗口
                                             $("#editDialog").dialog("close");
@@ -296,7 +297,6 @@
 
                                         } else {
                                             $.messager.alert("消息提醒", "更新失败!", "warning");
-                                            return;
                                         }
                                     }
                                 });

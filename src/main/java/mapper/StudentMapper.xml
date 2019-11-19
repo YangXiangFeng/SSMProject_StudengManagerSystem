@@ -12,6 +12,11 @@
         UPDATE stu SET sname = #{userName} where sid = #{userId};
     </update>
 
+    <update id="updateStudentById" parameterType="pojo.Student">
+        UPDATE s_student SET name = #{name},clazzId = #{clazzId},sex=#{sex},
+          mobile=#{mobile},qq=#{qq} WHERE id = #{id};
+    </update>
+
     <delete id="deleteStudentById" parameterType="integer">
         DELETE from studentmanager.stu WHERE sid = #{sid};
     </delete>
