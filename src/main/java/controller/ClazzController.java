@@ -10,16 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import pojo.Admin;
 import pojo.Clazz;
 import pojo.Page;
-import pojo.Student;
-import service.AdminService;
 import service.ClazzService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +23,7 @@ import java.util.Map;
 public class ClazzController {
     private ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
     private ClazzService service = (ClazzService) context.getBean("clazzService");
+    private ObjectMapper jsonMapper = new ObjectMapper();
 
     @RequestMapping("/clazzListController")
     public String handle(Model model, String name, String password) {
@@ -46,7 +41,7 @@ public class ClazzController {
                            String clazzName, String from)
             throws JsonProcessingException {
 
-        System.out.println("aaaaaaaaaa"+clazzName);
+        System.out.println("aaaaaaaaaa" + clazzName);
         Map<String, Object> map = new HashMap<String, Object>();
         Page page = new Page(currentPage, pageSize);
         map.put("pageSize", page.getPageSize());
@@ -59,11 +54,10 @@ public class ClazzController {
         Map<String, Object> ret = new HashMap<String, Object>();
         ret.put("rows", clazzList);
         ret.put("total", total);
-        ObjectMapper jsonmapper = new ObjectMapper();
         if (from.equals("combox")) {
-            return jsonmapper.writeValueAsString(clazzList);
+            return jsonMapper.writeValueAsString(clazzList);
         } else {
-            return jsonmapper.writeValueAsString(ret);
+            return jsonMapper.writeValueAsString(ret);
         }
     }
 
@@ -73,9 +67,8 @@ public class ClazzController {
         Clazz clazz = new Clazz(id, name, info);
         System.out.println(clazz.toString());
         service.updateClazzById(clazz);
-        Map ret = new HashMap();
+        Map<String, String> ret = new HashMap<String, String>();
         ret.put("status", "updated");
-        ObjectMapper jsonMapper = new ObjectMapper();
         return jsonMapper.writeValueAsString(ret);
     }
 
@@ -84,9 +77,22 @@ public class ClazzController {
     public String addClazz(String name, String info) throws IOException {
         Clazz clazz = new Clazz(name, info);
         service.addClazz(clazz);
-        Map ret = new HashMap();
+        Map<String, String> ret = new HashMap<String, String>();
         ret.put("msg", "success");
-        ObjectMapper jsonMapper = new ObjectMapper();
         return jsonMapper.writeValueAsString(ret);
+    }
+
+    @RequestMapping("/deleteClazz")
+    @ResponseBody
+    public String deleteClazz(@RequestParam("clazzid") Integer clazzId) throws IOException {
+        System.out.println("ssssssssssss:" + clazzId);
+        int status = service.deleteClazz(clazzId);
+        Map<String, String> ret = new HashMap<String, String>();
+        if (status == 1) {
+            ret.put("msg", "success");
+            return jsonMapper.writeValueAsString(ret);
+        }else {
+            return "the class is not empty.";
+        }
     }
 }

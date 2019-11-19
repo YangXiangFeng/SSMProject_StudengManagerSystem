@@ -1,7 +1,6 @@
 package service;
 
 import pojo.Clazz;
-import pojo.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +14,6 @@ public interface ClazzService {
     void addClazz(Clazz clazz);
 
     int getTotalClazz();
+
+    int deleteClazz(Integer clazzId);
 }

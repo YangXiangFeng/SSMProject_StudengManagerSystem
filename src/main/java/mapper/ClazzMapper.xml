@@ -11,6 +11,9 @@
     <update id="updateClazzById" parameterType="pojo.Clazz">
         UPDATE s_clazz SET name = #{name},info = #{info} where id = #{id};
     </update>
+    <delete id="deleteClazz" parameterType="integer">
+       DELETE FROM s_clazz WHERE id = #{clazzId};
+    </delete>
 
     <select id="getAllClazzList" resultType="pojo.Clazz">
         select * from s_clazz;

@@ -18,4 +18,7 @@ public interface ClazzMapper {
     int getTotalClazz();
 
     List<Clazz> getClazzByName(Map map);
+
+    void deleteClazz(Integer clazzId);
+
 }

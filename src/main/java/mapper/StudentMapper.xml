@@ -54,4 +54,9 @@
     <select id="queryTotalStudentNumber" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM s_student;
     </select>
+
+    <!--查询对应班级下的学生数-->
+    <select id="getStudentNumberByClazzId" resultType="java.lang.Integer" parameterType="integer">
+        SELECT COUNT(*) FROM s_student where clazzId = #{clazzId};
+    </select>
 </mapper>

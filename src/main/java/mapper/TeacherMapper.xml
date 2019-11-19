@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TeacherMapper">
+
+    <insert id="addTeacher" parameterType="pojo.Teacher">
+        insert into s_teacher (sn,name,sex,mobile,qq,password,clazzId)
+          values (#{sn},#{name},#{sex},#{mobile},#{qq},000000,1);
+    </insert>
+
+    <update id="updateTeacherById" parameterType="pojo.Teacher">
+        UPDATE s_teacher SET name = #{name},sn=#{sn},sex=#{sex},
+        qq=#{qq},mobile=#{mobile} where id = #{id};
+    </update>
+
+    <!---->
+    <!--<delete id="deleteTeacher" parameterType="list">-->
+        <!--DELETE FROM s_teacher WHERE id in(-->
+        <!--<foreach collection="list" item="i" index=""-->
+        <!--#{idList}-->
+        <!--);-->
+    <!--</delete>-->
+
+    <select id="getAllTeacherList" resultType="pojo.Teacher">
+        select * from s_teacher;
+    </select>
+
+    <select id="getTeacherListByPage" resultType="pojo.Teacher" parameterType="map">
+        SELECT * from s_teacher limit #{pageSize} offset #{start};
+    </select>
+
+    <select id="getTotalTeacher" resultType="java.lang.Integer">
+        SELECT COUNT(*)  from s_teacher;
+    </select>
+
+    <!--对班级名称模糊查询-->
+    <select id="getTeacherByName" resultType="pojo.Teacher">
+        SELECT * FROM s_teacher WHERE name LIKE '%${teacherName}%'
+        limit #{pageSize} offset #{start};
+    </select>
+
+
+</mapper>

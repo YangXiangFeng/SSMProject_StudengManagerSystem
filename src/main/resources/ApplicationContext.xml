@@ -27,11 +27,15 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
-     <bean id="ClazzMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
+     <bean id="clazzMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="mapper.ClazzMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
+     <bean id="teacherMapper1" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="mapper.TeacherMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
     <!--以上都是为了使用Mybatis的配置.........................................-->
     <!--开启事务-->
     <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
@@ -46,6 +50,10 @@
         <property name="mapper" ref="studentMapper1"/>
     </bean>
     <bean id="clazzService" class="service.ClazzServiceImpl">
-        <property name="clazzMapper" ref="ClazzMapper1"/>
+        <property name="clazzMapper" ref="clazzMapper1"/>
+        <property name="studentMapper" ref="studentMapper1"/>
+    </bean>
+    <bean id="teacherService" class="service.TeacherServiceImpl">
+        <property name="teacherMapper" ref="teacherMapper1"/>
     </bean>
 </beans>

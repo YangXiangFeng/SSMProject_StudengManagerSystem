@@ -30,4 +30,6 @@ public interface StudentMapper {
     List<Student> getStudentByNameInClass(Map map);
 
     void updateStudentById(Student student);
+
+    int getStudentNumberByClazzId(Integer clazzId);
 }

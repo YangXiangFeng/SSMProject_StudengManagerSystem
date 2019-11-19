@@ -47,7 +47,8 @@
                             "menuid": "31",
                             "menuname": "教师列表",
                             "icon": "icon-user-teacher",
-                            "url": "TeacherServlet?method=toTeacherListView"
+//                            "url": "TeacherServlet?method=toTeacherListView"
+                            "url": "/teacherListController"      //跳转到老师列表的controller
                         },
                     ]
                 },

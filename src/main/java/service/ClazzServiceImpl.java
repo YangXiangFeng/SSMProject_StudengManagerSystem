@@ -1,8 +1,8 @@
 package service;
 
 import mapper.ClazzMapper;
+import mapper.StudentMapper;
 import pojo.Clazz;
-import pojo.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -10,10 +10,26 @@ import java.util.Map;
 import static org.springframework.util.StringUtils.isEmpty;
 
 public class ClazzServiceImpl implements ClazzService {
-    ClazzMapper clazzMapper;
+    private ClazzMapper clazzMapper;
+    StudentMapper studentMapper;
 
     public void setClazzMapper(ClazzMapper clazzMapper) {
         this.clazzMapper = clazzMapper;
+    }
+
+    public void setStudentMapper(StudentMapper studentMapper) {
+        this.studentMapper = studentMapper;
+    }
+
+    public int deleteClazz(Integer clazzId) {
+//        先看看对应的班级有没有学生,如果有就不能删除
+        int num = studentMapper.getStudentNumberByClazzId(clazzId);
+        if (num > 0){
+            return 0; //代表失败
+        }else {
+            clazzMapper.deleteClazz(clazzId);
+            return 1;
+        }
     }
 
     public int getTotalClazz() {

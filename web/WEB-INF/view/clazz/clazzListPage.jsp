@@ -54,7 +54,7 @@
             //删除
             $("#delete").click(function () {
                 var selectRow = $("#dataList").datagrid("getSelected");
-                //console.log(selectRow);
+//                console.log(selectRow);
                 if (selectRow == null) {
                     $.messager.alert("消息提醒", "请选择数据进行删除!", "warning");
                 } else {
@@ -62,11 +62,12 @@
                     $.messager.confirm("消息提醒", "将删除班级信息（如果班级下存在学生或教师则不能删除），确认继续？", function (r) {
                         if (r) {
                             $.ajax({
-                                type: "post",
-                                url: "ClazzServlet?method=DeleteClazz",
+                                type: "get",
+//                                url: "ClazzServlet?method=DeleteClazz",
+                                url: "/deleteClazz",
                                 data: {clazzid: clazzid},
-                                success: function (msg) {
-                                    if (msg == "success") {
+                                success: function (data,status) {
+                                    if (status == "success") {
                                         $.messager.alert("消息提醒", "删除成功!", "info");
                                         //刷新表格
                                         $("#dataList").datagrid("reload");
